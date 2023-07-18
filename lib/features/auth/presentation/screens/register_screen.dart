@@ -69,11 +69,10 @@ class _RegisterForm extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 50),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          const SizedBox(height: 30), //50
+          const SizedBox(height: 25), //50
           Text('Nueva cuenta', style: textStyles.titleMedium),
-          const SizedBox(height: 30), //50
+          const SizedBox(height: 20), //50
           const CustomTextFormField(
             label: 'Nombre completo',
             keyboardType: TextInputType.emailAddress,
@@ -96,12 +95,13 @@ class _RegisterForm extends StatelessWidget {
           const SizedBox(height: 20), //30
           SizedBox(
               width: double.infinity,
-              height: 60,
+              height: 55, //60
               child: CustomFilledButton(
                 text: 'Crear',
                 buttonColor: Colors.black,
                 onPressed: () {},
               )),
+          const SizedBox(height: 10), //30,
           const Spacer(flex: 1),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,

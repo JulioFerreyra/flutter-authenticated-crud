@@ -60,7 +60,7 @@ class _LoginForm extends ConsumerWidget {
         children: [
           const SizedBox(height: 50),
           Text('Login', style: textStyles.titleLarge),
-          const SizedBox(height: 90),
+          const SizedBox(height: 80),
           CustomTextFormField(
             label: 'Correo',
             keyboardType: TextInputType.emailAddress,
@@ -84,6 +84,7 @@ class _LoginForm extends ConsumerWidget {
                 text: 'Ingresar',
                 buttonColor: Colors.black,
                 onPressed: () {
+                  
                   ref.read(loginFormProvider.notifier).onFormSubmitted();
                 },
               )),
