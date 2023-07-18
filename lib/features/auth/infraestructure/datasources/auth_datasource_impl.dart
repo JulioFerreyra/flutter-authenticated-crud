@@ -17,10 +17,19 @@ class AuthDataSourceImpl extends AuthDatasource {
       final response = await dio
           .post("/auth/login", data: {"email": email, "password": password});
       final User user = UserMapper.userJsonToEntity(response.data);
-      print(response.data);
       return user;
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 401) {
+        throw CustomError(
+            e.response?.data["message"] ?? "Credenciales Invalidas");
+      }
+      if (e.type == DioExceptionType.connectionTimeout) {
+        throw CustomError(
+            e.response?.data["message"] ?? "Tiempo de conexión agotado");
+      }
+      throw Exception();
     } catch (e) {
-      throw WrongCredentials();
+      throw Exception();
     }
   }
 
