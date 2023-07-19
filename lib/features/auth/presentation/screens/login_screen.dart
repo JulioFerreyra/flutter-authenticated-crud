@@ -63,9 +63,11 @@ class _LoginForm extends ConsumerWidget {
       padding: const EdgeInsets.symmetric(horizontal: 50),
       child: Column(
         children: [
-          const SizedBox(height: 50),
+          // const SizedBox(height: 50),
+          const Spacer(),
           Text('Login', style: textStyles.titleLarge),
-          const SizedBox(height: 80),
+          // const SizedBox(height: 80),
+          const Spacer(),
           CustomTextFormField(
             label: 'Correo',
             keyboardType: TextInputType.emailAddress,
