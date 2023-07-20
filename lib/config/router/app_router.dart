@@ -54,7 +54,5 @@ final goRouterProvider = Provider((ref) {
       }
       return null;
     },
-
-    ///! TODO: Bloquear si no se está autenticado de alguna manera
   );
 });
