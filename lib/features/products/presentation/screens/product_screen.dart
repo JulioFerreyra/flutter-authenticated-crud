@@ -177,8 +177,8 @@ class _GenderSelector extends StatelessWidget {
   }
 }
 
-class _ImageGallery extends StatelessWidget {
-  final List<String> images;
+class _ImageGallery extends StatelessWidget {   
+  final List<String> images;  
   const _ImageGallery({required this.images});
 
   @override
