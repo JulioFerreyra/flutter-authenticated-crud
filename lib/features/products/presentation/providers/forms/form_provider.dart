@@ -1,4 +1,9 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:formz/formz.dart';
+import 'package:teslo_shop/config/config.dart';
+
 import '../../../../shared/infraestructure/inputs/inputs.dart';
+import '../../../domain/domain.dart';
 
 //* state
 class ProductFormState {
@@ -54,9 +59,134 @@ class ProductFormState {
       );
 }
 
-
-
-
 //! notifier
+class ProductFormNotifier extends StateNotifier<ProductFormState> {
+  final void Function(Map<String, dynamic> productLike)? onSubmitCallBack;
+
+  ProductFormNotifier({this.onSubmitCallBack, required Product product})
+      : super(
+          ProductFormState(
+            id: product.id,
+            title: Title.dirty(product.title),
+            slug: Slug.dirty(product.slug),
+            price: Price.dirty(product.price),
+            inStock: Stock.dirty(product.stock),
+            sizes: product.sizes,
+            description: product.description,
+            tags: product.tags.join(", "),
+            images: product.images,
+          ),
+        );
+
+  void onTitleChange(String value) {
+    state = state.copyWith(
+      title: Title.dirty(value),
+      isFormValid: Formz.validate(
+        [
+          Title.dirty(value),
+          Price.dirty(state.price.value),
+          Slug.dirty(state.slug.value),
+          Stock.dirty(state.inStock.value),
+        ],
+      ),
+    );
+  }
+
+  void onPriceChange(double value) {
+    state = state.copyWith(
+      price: Price.dirty(value),
+      isFormValid: Formz.validate(
+        [
+          Title.dirty(state.title.value),
+          Price.dirty(value),
+          Slug.dirty(state.slug.value),
+          Stock.dirty(state.inStock.value),
+        ],
+      ),
+    );
+  }
+
+  void onSlugChange(String value) {
+    state = state.copyWith(
+      slug: Slug.dirty(value),
+      isFormValid: Formz.validate(
+        [
+          Title.dirty(state.title.value),
+          Price.dirty(state.price.value),
+          Slug.dirty(value),
+          Stock.dirty(state.inStock.value),
+        ],
+      ),
+    );
+  }
+
+  void onStockChange(int value) {
+    state = state.copyWith(
+      inStock: Stock.dirty(value),
+      isFormValid: Formz.validate(
+        [
+          Title.dirty(state.title.value),
+          Price.dirty(state.price.value),
+          Slug.dirty(state.slug.value),
+          Stock.dirty(value),
+        ],
+      ),
+    );
+  }
+
+  void onSizedChanged(List<String> sizes) {
+    state = state.copyWith(sizes: sizes);
+  }
+
+  void onGenderChanged(String gender) {
+    state = state.copyWith(gender: gender);
+  }
+
+  void onDescriptionChange(String description) {
+    state = state.copyWith(description: description);
+  }
+
+  void onTagsChange(String tags) {
+    state = state.copyWith(tags: tags);
+  }
+
+  Future<bool> onFormSubmitted() async {
+    _touchEverything();
+    if (!state.isFormValid) return false;
+    if (onSubmitCallBack == null) return false;
+    final ProductLike = {
+      "id": state.id,
+      "title": state.title.value,
+      "price": state.price.value,
+      "description": state.description,
+      "slug": state.slug.value,
+      "stock": state.inStock.value,
+      "sizes": state.sizes,
+      "gender": state.gender,
+      "tags": state.tags.split(","),
+      "images": state.images
+          .map(
+            (images) =>
+                images.replaceAll("${Enviorment.apiUrl}/files/product/", ""),
+          )
+          .toList(),
+    };
+    //TODO LLAMAR ONSUBMIT CALLBALCK
+    return true;
+  }
+
+  void _touchEverything() {
+    state = state.copyWith(
+        isFormValid: Formz.validate([
+      Title.dirty(state.title.value),
+      Price.dirty(state.price.value),
+      Slug.dirty(state.slug.value),
+      Stock.dirty(state.inStock.value),
+    ]));
+  }
+}
 
 //? provider
+// final productFormProvider = StateNotifierProvider.autoDispose.family<>((ref) {
+//   return 
+// });
