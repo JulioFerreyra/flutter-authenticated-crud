@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 
 import 'package:teslo_shop/config/config.dart';
+import 'package:teslo_shop/features/auth/infraestructure/errors/auth_errors.dart';
 import 'package:teslo_shop/features/products/domain/domain.dart';
 import 'package:teslo_shop/features/products/infraestructure/errors/products_errors.dart';
 import '../infraestructure.dart';
@@ -14,9 +15,19 @@ class ProductDatasourceImpl extends ProductsDatasource {
           headers: {"Authorization": "Bearer $accessToken"},
         ));
   @override
-  Future<Product> createUpdateProduct(Map<String, dynamic> productSpecs) {
-    // TODO: implement getProductsById
-    throw UnimplementedError();
+  Future<Product> createUpdateProduct(Map<String, dynamic> productSpecs) async {
+    try {
+      final String? productId = productSpecs["id"];
+      final String method = (productId == null) ? "POST" : "PATCH";
+      final String url = (productId == null) ? "/post" : "/products/$productId";
+      productSpecs.remove("id");
+      final response = await dio.request(url,
+          data: productSpecs, options: Options(method: method));
+      final product = ProductMapper.jsonToEntity(response.data);
+      return product;
+    } on DioException catch (e) {
+      throw CustomError(e.message ?? "Error en la petición");
+    }
   }
 
   @override

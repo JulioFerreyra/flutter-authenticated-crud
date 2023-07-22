@@ -38,10 +38,12 @@ class CustomProductField extends StatelessWidget {
         borderSide: const BorderSide(color: Colors.transparent),
         borderRadius: BorderRadius.circular(40));
 
-    const borderRadius = Radius.circular(15);
+    const borderRadius = Radius.circular(10);
 
     return Container(
-      // padding: const EdgeInsets.only(bottom: 0, top: 15),
+      padding: const EdgeInsets.only(
+        bottom: 15,
+      ),
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
