@@ -3,7 +3,6 @@ import 'package:dio/dio.dart';
 import 'package:teslo_shop/config/config.dart';
 import 'package:teslo_shop/features/auth/infraestructure/errors/auth_errors.dart';
 import 'package:teslo_shop/features/products/domain/domain.dart';
-import 'package:teslo_shop/features/products/infraestructure/errors/products_errors.dart';
 import '../infraestructure.dart';
 
 class ProductDatasourceImpl extends ProductsDatasource {
@@ -19,7 +18,8 @@ class ProductDatasourceImpl extends ProductsDatasource {
     try {
       final String? productId = productSpecs["id"];
       final String method = (productId == null) ? "POST" : "PATCH";
-      final String url = (productId == null) ? "/post" : "/products/$productId";
+      final String url =
+          (productId == null) ? "/products" : "/products/$productId";
       productSpecs.remove("id");
       final response = await dio.request(url,
           data: productSpecs, options: Options(method: method));

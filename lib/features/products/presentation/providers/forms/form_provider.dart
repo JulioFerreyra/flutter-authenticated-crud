@@ -157,7 +157,7 @@ class ProductFormNotifier extends StateNotifier<ProductFormState> {
     if (!state.isFormValid) return false;
     if (onSubmitCallBack == null) return false;
     final productLike = {
-      "id": state.id,
+      "id": (state.id == "new") ?null : state.id,
       "title": state.title.value,
       "price": state.price.value,
       "description": state.description,
