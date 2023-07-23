@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:teslo_shop/features/products/presentation/providers/providers.dart';
-import 'package:teslo_shop/features/shared/widgets/widgets.dart';
+import 'package:teslo_shop/features/shared/shared.dart';
 
 import '../../domain/domain.dart';
 
@@ -20,8 +20,21 @@ class ProductScreen extends ConsumerWidget {
           centerTitle: true,
           actions: [
             IconButton(
-              onPressed: () {
+              onPressed: () async {
                 FocusScope.of(context).unfocus();
+                final photoPath =
+                    await CameraGalleryServiceImpl().selectPhoto();
+                if (photoPath == null) return;
+                photoPath;
+              },
+              icon: const Icon(Icons.photo_library),
+            ),
+            IconButton(
+              onPressed: () async {
+                FocusScope.of(context).unfocus();
+                final photoPath = await CameraGalleryServiceImpl().takePhoto();
+                if (photoPath == null) return;
+                photoPath;
               },
               icon: const Icon(Icons.camera_alt),
             ),
